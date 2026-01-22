@@ -1,0 +1,1 @@
+Building a basic 1-to-1 real-time chat app with login and message history.
