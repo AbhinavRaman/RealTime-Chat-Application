@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import Sidebar from "./Sidebar";
 import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
@@ -11,6 +12,13 @@ const ChatLayout = ({
   setMessage,
   sendMessage,
 }) => {
+
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
   return (
     <div className="h-screen flex bg-gray-100">
       
@@ -22,7 +30,7 @@ const ChatLayout = ({
         <ChatHeader selectedChat={selectedChat} />
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
+        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-200">
           {messages?.map((msg, index) => (
             <MessageBubble
               key={index}
@@ -37,6 +45,8 @@ const ChatLayout = ({
           setMessage={setMessage}
           sendMessage={sendMessage}
         />
+
+        <div ref={messagesEndRef}></div>
       </div>
     </div>
   );
