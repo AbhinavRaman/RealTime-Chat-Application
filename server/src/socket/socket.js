@@ -11,12 +11,6 @@ const initSocket = (server) => {
     io.on("connection", (socket) => {
         console.log("New Socket Connected:", socket.id);
 
-        // user setup
-        // socket.on("setup", (userData) => {
-        //     socket.userId = userData._id;
-        //     socket.join(userData._id);
-        //     socket.emit("connected");
-        // });
         socket.on("setup", (userData) => {
             socket.join(userData._id);
 
@@ -53,10 +47,6 @@ const initSocket = (server) => {
                 socket.in(user._id).emit("message received", message);
             });
         });
-
-        // socket.on("disconnect", () => {
-        //     console.log("Socket disconnected:", socket.id);
-        // });
 
         socket.on("disconnect", () => {
             for (let [userId, socketId] of onlineUsers.entries()) {

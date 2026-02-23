@@ -12,6 +12,8 @@ const ChatLayout = ({
   setMessage,
   sendMessage,
   onlineUsers,
+  isTyping,
+  handleTyping,
 }) => {
 
   const messagesEndRef = useRef(null);
@@ -41,10 +43,17 @@ const ChatLayout = ({
           ))}
         </div>
 
+        {isTyping && (
+          <div className="px-6 pb-2 text-sm text-gray-500 italic">
+            Typing...
+          </div>
+        )}
+
         <MessageInput
           message={message}
           setMessage={setMessage}
           sendMessage={sendMessage}
+          handleTyping={handleTyping}
         />
 
         <div ref={messagesEndRef}></div>
