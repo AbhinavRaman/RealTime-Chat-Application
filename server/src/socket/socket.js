@@ -1,5 +1,5 @@
 const { Server } = require("socket.io");
-
+const onlineUsers = new Map();
 const initSocket = (server) => {
     const io = new Server(server, {
         pingTimeout: 60000,
@@ -12,9 +12,17 @@ const initSocket = (server) => {
         console.log("New Socket Connected:", socket.id);
 
         // user setup
+        // socket.on("setup", (userData) => {
+        //     socket.userId = userData._id;
+        //     socket.join(userData._id);
+        //     socket.emit("connected");
+        // });
         socket.on("setup", (userData) => {
-            socket.userId = userData._id;
             socket.join(userData._id);
+
+            onlineUsers.set(userData._id, socket.id);
+            io.emit("online users", Array.from(onlineUsers.keys()));
+
             socket.emit("connected");
         });
 
@@ -46,8 +54,19 @@ const initSocket = (server) => {
             });
         });
 
+        // socket.on("disconnect", () => {
+        //     console.log("Socket disconnected:", socket.id);
+        // });
+
         socket.on("disconnect", () => {
-            console.log("Socket disconnected:", socket.id);
+            for (let [userId, socketId] of onlineUsers.entries()) {
+                if (socketId === socket.id) {
+                onlineUsers.delete(userId);
+                break;
+                }
+            }
+
+            io.emit("online users", Array.from(onlineUsers.keys()));
         });
     });
 };

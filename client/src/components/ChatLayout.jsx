@@ -11,6 +11,7 @@ const ChatLayout = ({
   message,
   setMessage,
   sendMessage,
+  onlineUsers,
 }) => {
 
   const messagesEndRef = useRef(null);
@@ -23,11 +24,11 @@ const ChatLayout = ({
     <div className="h-screen flex bg-gray-100">
       
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar onlineUsers={onlineUsers} />
 
       {/* Chat Section */}
       <div className="flex-1 flex flex-col">
-        <ChatHeader selectedChat={selectedChat} />
+        <ChatHeader selectedChat={selectedChat} onlineUsers={onlineUsers} />
 
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-200">

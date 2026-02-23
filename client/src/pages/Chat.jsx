@@ -5,9 +5,14 @@ import ChatLayout from "../components/ChatLayout";
 const Chat = ({ user }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   useEffect(() => {
     socket.emit("setup", user);
+
+    socket.on("online users", (users) => {
+      setOnlineUsers(users);
+    });
 
     socket.on("connected", () => {
       console.log("Socket Connected");
@@ -52,6 +57,7 @@ const Chat = ({ user }) => {
       message={message}
       setMessage={setMessage}
       sendMessage={sendMessage}
+      onlineUsers={onlineUsers}
     />
   );
 };

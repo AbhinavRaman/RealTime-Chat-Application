@@ -17,7 +17,6 @@ function App() {
 
   return (
     <div>
-      <h2>Real-Time Chat Test</h2>
       <Chat user={user} />
     </div>
   );
